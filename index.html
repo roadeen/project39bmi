@@ -30,21 +30,39 @@
         const GAME_APP_ID = 1599340;
 
         async function getSteamHours() {
-            const url = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${STEAM_API_KEY}&steamid=${STEAM_ID}&include_appinfo=1&include_played_free_games=1`;
-            
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                const game = data.response.games.find(game => game.appid === GAME_APP_ID);
-                const hoursPlayed = game ? Math.floor(game.playtime_forever / 60) : 0;
-                document.getElementById("steam-hours").innerText = `Hours Played: ${hoursPlayed}`;
-            } catch (error) {
-                document.getElementById("steam-hours").innerText = "Error loading data";
-                console.error(error);
-            }
+    const url = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${STEAM_API_KEY}&steamid=${STEAM_ID}&include_appinfo=1&include_played_free_games=1`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log("API Response:", data); // Log full response
+
+        if (!data.response || !data.response.games) {
+            document.getElementById("steam-hours").innerText = "No games found or profile is private.";
+            return;
         }
 
-        getSteamHours();
+        const game = data.response.games.find(game => game.appid === Number(GAME_APP_ID));
+
+        if (!game) {
+            document.getElementById("steam-hours").innerText = "Game not found in your library.";
+            return;
+        }
+
+        const hoursPlayed = Math.floor(game.playtime_forever / 60);
+        document.getElementById("steam-hours").innerText = `Hours Played: ${hoursPlayed}`;
+    } catch (error) {
+        document.getElementById("steam-hours").innerText = "Error loading data";
+        console.error("Fetch error:", error);
+    }
+}
+
+getSteamHours();
+
     </script>
 </body>
 </html>
