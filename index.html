@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steam Hours Played</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .container {
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Steam Game Hours</h2>
+        <p id="steam-hours">Loading...</p>
+    </div>
+
+    <script>
+        const STEAM_API_KEY = "YOUR_STEAM_API_KEY";
+        const STEAM_ID = "YOUR_STEAM_ID";
+        const GAME_APP_ID = YOUR_GAME_APP_ID; // Replace with actual game ID
+
+        async function getSteamHours() {
+            const url = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${STEAM_API_KEY}&steamid=${STEAM_ID}&include_appinfo=1`;
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const game = data.response.games.find(game => game.appid === GAME_APP_ID);
+                const hoursPlayed = game ? Math.floor(game.playtime_forever / 60) : 0;
+                document.getElementById("steam-hours").innerText = `Hours Played: ${hoursPlayed}`;
+            } catch (error) {
+                document.getElementById("steam-hours").innerText = "Error loading data";
+                console.error(error);
+            }
+        }
+
+        getSteamHours();
+    </script>
+</body>
+</html>
