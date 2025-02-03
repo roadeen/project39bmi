@@ -27,7 +27,7 @@
     <script>
         const STEAM_API_KEY = "225CD574BB086D4977A4F7FDE341258C";
         const STEAM_ID = "76561198272364420";
-        const GAME_APP_ID = 1599340; // Convert to number
+        const GAME_APP_ID = 1599340;
 
         async function getSteamHours() {
             const proxyUrl = "https://corsproxy.io/?";
@@ -64,3 +64,52 @@
     </script>
 </body>
 </html>
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steam Hours Played</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .container {
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Petey's Lost Ark Hours</h2>
+        <p id="steam-hours">Loading...</p>
+    </div>
+
+    <script>
+        const WORKER_URL = "https://d68a3f78-39bmi-backend-api.rodinkhudadad.workers.dev/"; // Replace with your actual Cloudflare Worker URL
+
+        async function getSteamHours() {
+            try {
+                const response = await fetch(WORKER_URL);
+                const data = await response.json();
+                const game = data.response.games.find(game => game.appid === 1599340);
+                const hoursPlayed = game ? Math.floor(game.playtime_forever / 60) : 0;
+                document.getElementById("steam-hours").innerText = `Hours Played: ${hoursPlayed}`;
+            } catch (error) {
+                document.getElementById("steam-hours").innerText = "Error loading data";
+                console.error(error);
+            }
+        }
+
+        getSteamHours();
+    </script>
+</body>
+</html> 
+-->
