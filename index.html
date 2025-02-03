@@ -36,10 +36,7 @@
             const url = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${STEAM_API_KEY}&steamid=${STEAM_ID}&include_appinfo=1&include_played_free_games=1`;
 
             try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+                const url = `https://cors-anywhere.herokuapp.com/https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${STEAM_API_KEY}&steamid=${STEAM_ID}&include_appinfo=1&include_played_free_games=1`;
 
                 const data = await response.json();
                 console.log("API Response:", data); // Log full response
@@ -49,7 +46,7 @@
                     return;
                 }
 
-                const game = data.response.games.find(game => game.appid === Number(GAME_APP_ID));
+                const game = data.response.games.find(game => game.appid === 1599340(GAME_APP_ID));
 
                 if (!game) {
                     document.getElementById("steam-hours").innerText = "Game not found in your library.";
