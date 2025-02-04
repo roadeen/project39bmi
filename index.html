@@ -25,75 +25,7 @@
     </div>
 
     <script>
-        const STEAM_API_KEY = "225CD574BB086D4977A4F7FDE341258C";
-        const STEAM_ID = "76561198272364420";
-        const GAME_APP_ID = 1599340;
-
-        async function getSteamHours() {
-            const proxyUrl = "https://corsproxy.io/?";
-            const steamUrl = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${STEAM_API_KEY}&steamid=${STEAM_ID}&include_appinfo=1&include_played_free_games=1`;
-            const url = proxyUrl + encodeURIComponent(steamUrl);
-            
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
-
-                const data = await response.json();
-                console.log("API Response:", data);
-
-                if (!data.response || !data.response.games) {
-                    document.getElementById("steam-hours").innerText = "No games found or profile is private.";
-                    return;
-                }
-
-                const game = data.response.games.find(game => game.appid === GAME_APP_ID);
-                if (!game) {
-                    document.getElementById("steam-hours").innerText = "Game not found in your library.";
-                    return;
-                }
-
-                const hoursPlayed = Math.floor(game.playtime_forever / 60);
-                document.getElementById("steam-hours").innerText = `Hours Played: ${hoursPlayed}`;
-            } catch (error) {
-                document.getElementById("steam-hours").innerText = "Error loading data";
-                console.error("Fetch error:", error);
-            }
-        }
-
-        getSteamHours();
-    </script>
-</body>
-</html>
-
-<!-- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steam Hours Played</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
-        }
-        .container {
-            padding: 20px;
-            border: 2px solid #333;
-            border-radius: 10px;
-            display: inline-block;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Petey's Lost Ark Hours</h2>
-        <p id="steam-hours">Loading...</p>
-    </div>
-
-    <script>
-        const WORKER_URL = "https://d68a3f78-39bmi-backend-api.rodinkhudadad.workers.dev/"; // Replace with your actual Cloudflare Worker URL
+        const WORKER_URL = "https://d68a3f78-39bmi-backend-api.rodinkhudadad.workers.dev/"; //
 
         async function getSteamHours() {
             try {
@@ -112,4 +44,7 @@
     </script>
 </body>
 </html> 
+
+<!-- 
+
 -->
